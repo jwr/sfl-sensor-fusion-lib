@@ -27,6 +27,7 @@
 #define FUSION_H
 
 #include "types.h"
+#include "magnetic.h"
 
 // *********************************************************************************
 // COMPUTE_6DOF_GY_KALMAN constants

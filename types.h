@@ -27,6 +27,7 @@
 #define TYPES_H
 
 #include <stdint.h>
+#include "config.h"
 
 typedef int8_t int8;
 typedef uint8_t uint8;
