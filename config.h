@@ -24,8 +24,8 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef BUILD_H
-#define BUILD_H
+#ifndef CONFIG_H
+#define CONFIG_H
 
 // coordinate system for the build
 #define NED 0                       // identifier for NED (Aerospace) axes and angles
@@ -48,4 +48,4 @@
 #define SENSORFS 			200         // int32: frequency (Hz) of gyro sensor sampling process
 #define OVERSAMPLE_RATIO 	8			// int32: accel and mag sampling and algorithms run at SENSORFS / OVERSAMPLE_RATIO Hz
 
-#endif // BUILD_H
+#endif // CONFIG_H

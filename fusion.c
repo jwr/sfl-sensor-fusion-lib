@@ -34,7 +34,7 @@
 #include "time.h"
 #include "string.h"
 
-#include "build.h"
+#include "config.h"
 #include "types.h"
 #include "fusion.h"
 #include "orientation.h"
