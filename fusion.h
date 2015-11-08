@@ -26,7 +26,7 @@
 #ifndef FUSION_H
 #define FUSION_H
 
-#include "mqx_tasks.h"
+#include "types.h"
 
 // *********************************************************************************
 // COMPUTE_6DOF_GY_KALMAN constants
