@@ -61,21 +61,6 @@ typedef enum quaternion {Q3, Q3M, Q3G, Q6MA, Q6AG, Q9} quaternion_type;
 #define ONEOVERSQRT2 0.707106781F		// 1/sqrt(2)
 #define GTOMSEC2 9.80665				// standard gravity in m/s2
 
-// project globals structure
-struct ProjectGlobals
-{
-	volatile quaternion_type QuaternionPacketType;	// quaternion transmitted over UART
-	quaternion_type DefaultQuaternionPacketType;	// default quaternion transmitted at power on
-	LWEVENT_STRUCT SamplingEventStruct;				// MQX-Lite hardware timer event
-	LWEVENT_STRUCT RunKFEventStruct;				// MQX-Lite kalman filter sensor fusion event
-	LWEVENT_STRUCT MagCalEventStruct;				// MQX-Lite magnetic calibration event
-	int32 loopcounter;								// counter incrementing each iteration of sensor fusion (typically 25Hz)
-	volatile uint8 AngularVelocityPacketOn;			// flag to transmit angular velocity packet
-	volatile uint8 DebugPacketOn;					// flag to transmit debug packet
-	volatile uint8 RPCPacketOn;						// flag to transmit roll, pitch, compass packet
-	volatile uint8 AltPacketOn;						// flag to transmit altitude packet
-};
-
 // quaternion structure definition
 struct fquaternion
 {
