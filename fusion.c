@@ -28,11 +28,11 @@
 // is extremely complex, and it will be very easy (almost inevitable) that you screw
 // it up.
 //
-#include "stdio.h"
-#include "math.h"
-#include "stdlib.h"
-#include "time.h"
-#include "string.h"
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
 
 #include "config.h"
 #include "types.h"

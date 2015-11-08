@@ -25,11 +25,11 @@
 //
 // This file contains matrix manipulation functions.
 //
-#include "stdio.h"
-#include "math.h"
-#include "stdlib.h"
-#include "time.h"
-#include "string.h"
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
 
 #include "config.h"
 #include "types.h"

@@ -26,11 +26,11 @@
 // This file provides replacement trig functions which operate at reduced power,
 // while still maintaining sufficient accuracy for sensor fusion.
 
-#include "stdio.h"
-#include "math.h"
-#include "stdlib.h"
-#include "time.h"
-#include "string.h"
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
 
 #include "types.h"
 #include "approximations.h"

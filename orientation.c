@@ -28,11 +28,11 @@
 // It also includes functions designed to operate with specify reference frames
 // (Android, Windows 8, NED).
 //
-#include "stdio.h"
-#include "math.h"
-#include "stdlib.h"
-#include "time.h"
-#include "string.h"
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
 
 #include "config.h"
 #include "types.h"
