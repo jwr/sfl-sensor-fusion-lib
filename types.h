@@ -26,13 +26,14 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-// these definition re-define (but with no changes) those in MQX-Lite PE-Types.h for Kinetis
-typedef signed char				int8;
-typedef unsigned char			uint8;
-typedef signed short int		int16;
-typedef unsigned short int		uint16;
-typedef signed long int			int32;
-typedef unsigned long int		uint32;
+#include <stdint.h>
+
+typedef int8_t int8;
+typedef uint8_t uint8;
+typedef int16_t int16;
+typedef uint16_t uint16;
+typedef int32_t int32;
+typedef uint32_t uint32;
 
 // the quaternion type to be transmitted
 typedef enum quaternion {Q3, Q3M, Q3G, Q6MA, Q6AG, Q9} quaternion_type;
