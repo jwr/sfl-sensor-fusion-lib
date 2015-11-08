@@ -40,11 +40,10 @@
 #include "orientation.h"
 #include "magnetic.h"
 #include "matrix.h"
-#include "mqx_tasks.h"
 #include "approximations.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// intialization functions for the sensor fusion algorithms
+// initialization functions for the sensor fusion algorithms
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 // function initializes the sensor fusion and magnetic calibration and sets loopcounter to zero
@@ -52,31 +51,6 @@ void fInitFusion(void)
 {
 	// reset the default quaternion type to the simplest Q3 (it will be updated during the initializations)
 	globals.DefaultQuaternionPacketType = Q3;
-
-	// force a reset of all the algorithms next time they execute
-	// the initialization will result in the default and current quaternion being set to the most sophisticated
-	// algorithm supported by the build
-#if defined COMPUTE_1DOF_P_BASIC
-	thisSV_1DOF_P_BASIC.resetflag = true;					
-#endif
-#if defined COMPUTE_3DOF_G_BASIC
-	thisSV_3DOF_G_BASIC.resetflag = true;				
-#endif
-#if defined COMPUTE_3DOF_B_BASIC
-	thisSV_3DOF_B_BASIC.resetflag = true;	
-#endif
-#if defined COMPUTE_3DOF_Y_BASIC
-	thisSV_3DOF_Y_BASIC.resetflag = true;				
-#endif
-#if defined COMPUTE_6DOF_GB_BASIC
-	thisSV_6DOF_GB_BASIC.resetflag = true;				
-#endif
-#if defined COMPUTE_6DOF_GY_KALMAN
-	thisSV_6DOF_GY_KALMAN.resetflag = true;
-#endif
-#if defined COMPUTE_9DOF_GBY_KALMAN
-	thisSV_9DOF_GBY_KALMAN.resetflag = true;
-#endif
 
 	// reset the loop counter to zero for first iteration
 	globals.loopcounter = 0;
