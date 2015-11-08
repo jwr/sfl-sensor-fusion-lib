@@ -26,8 +26,6 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-#include "MQX1.h"
-
 // these definition re-define (but with no changes) those in MQX-Lite PE-Types.h for Kinetis
 typedef signed char				int8;
 typedef unsigned char			uint8;
