@@ -49,13 +49,7 @@
 // function initializes the sensor fusion and magnetic calibration and sets loopcounter to zero
 void fInitFusion(void)
 {
-	// reset the default quaternion type to the simplest Q3 (it will be updated during the initializations)
-	globals.DefaultQuaternionPacketType = Q3;
-
-	// reset the loop counter to zero for first iteration
-	globals.loopcounter = 0;
-
-	return;
+  return;
 }
 
 void fInit_1DOF_P_BASIC(struct SV_1DOF_P_BASIC *pthisSV, struct PressureSensor *pthisPressure, float flpftimesecs)
@@ -107,10 +101,6 @@ void fInit_3DOF_G_BASIC(struct SV_3DOF_G_BASIC *pthisSV, struct AccelSensor *pth
 	}
 	fQuaternionFromRotationMatrix(pthisSV->fLPR, &(pthisSV->fLPq));
 
-	// update the default quaternion type supported to the most sophisticated
-	if (globals.DefaultQuaternionPacketType < Q3)
-		globals.QuaternionPacketType = globals.DefaultQuaternionPacketType = Q3; 
-
 	// clear the reset flag
 	pthisSV->resetflag = false;
 
@@ -144,10 +134,6 @@ void fInit_3DOF_B_BASIC(struct SV_3DOF_B_BASIC *pthisSV, struct MagSensor *pthis
 	}
 	fQuaternionFromRotationMatrix(pthisSV->fLPR, &(pthisSV->fLPq));
 
-	// update the default quaternion type supported to the most sophisticated
-	if (globals.DefaultQuaternionPacketType < Q3M)
-		globals.QuaternionPacketType = globals.DefaultQuaternionPacketType = Q3M; 
-
 	// clear the reset flag
 	pthisSV->resetflag = false;
 
@@ -163,10 +149,6 @@ void fInit_3DOF_Y_BASIC(struct SV_3DOF_Y_BASIC *pthisSV)
 	// initialize orientation estimate to flat
 	f3x3matrixAeqI(pthisSV->fR);
 	fqAeq1(&(pthisSV->fq));
-
-	// update the default quaternion type supported to the most sophisticated
-	if (globals.DefaultQuaternionPacketType < Q3G)
-		globals.QuaternionPacketType = globals.DefaultQuaternionPacketType = Q3G; 
 
 	// clear the reset flag
 	pthisSV->resetflag = false;
@@ -200,10 +182,6 @@ void fInit_6DOF_GB_BASIC(struct SV_6DOF_GB_BASIC *pthisSV, struct AccelSensor *p
 		break;
 	}
 	fQuaternionFromRotationMatrix(pthisSV->fLPR, &(pthisSV->fLPq));
-
-	// update the default quaternion type supported to the most sophisticated
-	if (globals.DefaultQuaternionPacketType < Q6MA)
-		globals.QuaternionPacketType = globals.DefaultQuaternionPacketType = Q6MA; 
 
 	// clear the reset flag
 	pthisSV->resetflag = false;
@@ -246,10 +224,6 @@ void fInit_6DOF_GY_KALMAN(struct SV_6DOF_GY_KALMAN *pthisSV, struct AccelSensor 
 		break;
 	}
 	fQuaternionFromRotationMatrix(pthisSV->fRPl, &(pthisSV->fqPl));
-
-	// update the default quaternion type supported to the most sophisticated
-	if (globals.DefaultQuaternionPacketType < Q6AG)
-		globals.QuaternionPacketType = globals.DefaultQuaternionPacketType = Q6AG; 
 
 	// clear the reset flag
 	pthisSV->resetflag = false;
@@ -319,10 +293,6 @@ void fInit_9DOF_GBY_KALMAN(struct SV_9DOF_GBY_KALMAN *pthisSV, struct AccelSenso
 	pthisSV->fDeltaPl = fDelta6DOF;
 	pthisSV->fsinDeltaPl = sinf(pthisSV->fDeltaPl * FPIOVER180);
 	pthisSV->fcosDeltaPl = sqrtf(1.0F - pthisSV->fsinDeltaPl * pthisSV->fsinDeltaPl);
-
-	// update the default quaternion type supported to the most sophisticated
-	if (globals.DefaultQuaternionPacketType < Q9)
-		globals.QuaternionPacketType = globals.DefaultQuaternionPacketType = Q9; 
 
 	// clear the reset flag
 	pthisSV->resetflag = false;
