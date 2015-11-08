@@ -36,7 +36,6 @@
 
 #include "config.h"
 #include "types.h"
-#include "mqx_tasks.h"
 #include "magnetic.h"
 #include "matrix.h"
 
