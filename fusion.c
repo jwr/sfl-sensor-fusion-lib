@@ -46,12 +46,6 @@
 // initialization functions for the sensor fusion algorithms
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-// function initializes the sensor fusion and magnetic calibration and sets loopcounter to zero
-void fInitFusion(void)
-{
-  return;
-}
-
 void fInit_1DOF_P_BASIC(struct SV_1DOF_P_BASIC *pthisSV, struct PressureSensor *pthisPressure, float flpftimesecs)
 {
 	// set algorithm sampling interval (typically 25Hz) and low pass filter

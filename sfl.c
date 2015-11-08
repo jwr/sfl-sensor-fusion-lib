@@ -33,8 +33,6 @@ void sfl_initialize() {
 	thisSV_9DOF_GBY_KALMAN.resetflag = true;
 #endif
 
-	fInitFusion();
-	
 	// initialize magnetometer data structure
 #if defined COMPUTE_3DOF_B_BASIC || defined COMPUTE_6DOF_GB_BASIC || defined COMPUTE_9DOF_GBY_KALMAN
 	// zero the calibrated measurement since this is used for indexing the magnetic buffer even before first calibration
@@ -44,7 +42,7 @@ void sfl_initialize() {
   
   // initialize magnetic calibration and magnetometer data buffer
 #if defined COMPUTE_3DOF_B_BASIC || defined COMPUTE_6DOF_GB_BASIC || defined COMPUTE_9DOF_GBY_KALMAN
-  fInitMagCalibration(&thisMagCal, &thisMagBuffer);
+	fInitMagCalibration(&thisMagCal, &thisMagBuffer);
 #endif
 }
 

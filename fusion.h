@@ -57,7 +57,6 @@
 // *********************************************************************************
 // function prototypes
 // *********************************************************************************
-void fInitFusion(void);
 void fInit_1DOF_P_BASIC(struct SV_1DOF_P_BASIC *pthisSV, struct PressureSensor *pthisPressure,  float flpftimesecs);
 void fInit_3DOF_G_BASIC(struct SV_3DOF_G_BASIC *pthisSV, struct AccelSensor *pthisAccel, float flpftimesecs);
 void fInit_3DOF_B_BASIC(struct SV_3DOF_B_BASIC *pthisSV, struct MagSensor *pthisMag, float flpftimesecs);
