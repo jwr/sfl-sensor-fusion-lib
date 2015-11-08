@@ -8,48 +8,50 @@
 
 void sfl_initialize() {
   int i;
+  
   // Force a reset of all the algorithms next time they execute. The initialization will result in the default and
   // current quaternion being set to the most sophisticated algorithm supported by the build.
 
 #if defined COMPUTE_1DOF_P_BASIC
-	thisSV_1DOF_P_BASIC.resetflag = true;					
+  thisSV_1DOF_P_BASIC.resetflag = true;
 #endif
 #if defined COMPUTE_3DOF_G_BASIC
-	thisSV_3DOF_G_BASIC.resetflag = true;				
+  thisSV_3DOF_G_BASIC.resetflag = true;
 #endif
 #if defined COMPUTE_3DOF_B_BASIC
-	thisSV_3DOF_B_BASIC.resetflag = true;	
+  thisSV_3DOF_B_BASIC.resetflag = true;
 #endif
 #if defined COMPUTE_3DOF_Y_BASIC
-	thisSV_3DOF_Y_BASIC.resetflag = true;				
+  thisSV_3DOF_Y_BASIC.resetflag = true;
 #endif
 #if defined COMPUTE_6DOF_GB_BASIC
-	thisSV_6DOF_GB_BASIC.resetflag = true;				
+  thisSV_6DOF_GB_BASIC.resetflag = true;
 #endif
 #if defined COMPUTE_6DOF_GY_KALMAN
-	thisSV_6DOF_GY_KALMAN.resetflag = true;
+  thisSV_6DOF_GY_KALMAN.resetflag = true;
 #endif
 #if defined COMPUTE_9DOF_GBY_KALMAN
-	thisSV_9DOF_GBY_KALMAN.resetflag = true;
+  thisSV_9DOF_GBY_KALMAN.resetflag = true;
 #endif
 
-	// initialize magnetometer data structure
+  // initialize magnetometer data structure
 #if defined COMPUTE_3DOF_B_BASIC || defined COMPUTE_6DOF_GB_BASIC || defined COMPUTE_9DOF_GBY_KALMAN
-	// zero the calibrated measurement since this is used for indexing the magnetic buffer even before first calibration
-	for (i = CHX; i <= CHZ; i++)
-	  thisMag.iBcAvg[i]= 0;
+  // zero the calibrated measurement since this is used for indexing the magnetic buffer even before first calibration
+  for (i = CHX; i <= CHZ; i++)
+	thisMag.iBcAvg[i]= 0;
 #endif
   
   // initialize magnetic calibration and magnetometer data buffer
 #if defined COMPUTE_3DOF_B_BASIC || defined COMPUTE_6DOF_GB_BASIC || defined COMPUTE_9DOF_GBY_KALMAN
-	fInitMagCalibration(&thisMagCal, &thisMagBuffer);
+  fInitMagCalibration(&thisMagCal, &thisMagBuffer);
 #endif
 }
 
 
 // This function should be called at 200Hz to process the measurements. Before calling, make sure that the latest
 // measurements have been read off the sensors and are stored in the appropriate structures (thisAccel, thisMag,
-// thisGyro, thisPressure). The function will return 1 if sfl_fusion() should be called.
+// thisGyro, thisPressure, depending on which sensors you actually use). The function will return 1 if sfl_fusion()
+// should be called.
 uint8_t sfl_process_measurements() {
   static int8 iCounter = 0;		// decimation counter range 0 to OVERSAMPLE_RATIO-1
   int32 iSum[3];				// array of sums
@@ -64,7 +66,7 @@ uint8_t sfl_process_measurements() {
 
   // every OVERSAMPLE_RATIO passes calculate the block averaged measurement
   if (iCounter == (OVERSAMPLE_RATIO - 1))
-	{	
+	{
 	  // calculate the block averaged measurement in counts and g
 	  for (i = CHX; i <= CHZ; i++)
 		{
@@ -79,7 +81,7 @@ uint8_t sfl_process_measurements() {
 		  // convert from integer counts to float g
 		  thisAccel.fGsAvg[i] = (float)thisAccel.iGsAvg[i] * thisAccel.fgPerCount;
 		}
-	} // end of test for end of OVERSAMPLE_RATIO block
+	}  // end of test for end of OVERSAMPLE_RATIO block
 #endif // end of check for accelerometer algorithm and sensor
 
   // read and process the magnetometer sensor in every slot if magnetic algorithm is in use.
@@ -164,13 +166,13 @@ uint8_t sfl_process_measurements() {
 		} // end of compute averages for OVERSAMPLE_RATIO = 1
 
 		  // convert the averages to float
-		  for (i = CHX; i <= CHZ; i++)
-			thisMag.fBsAvg[i] = (float)thisMag.iBsAvg[i] * thisMag.fuTPerCount;
+	  for (i = CHX; i <= CHZ; i++)
+		thisMag.fBsAvg[i] = (float)thisMag.iBsAvg[i] * thisMag.fuTPerCount;
 
-		  // remove hard and soft iron terms from fBsAvg (uT) to get calibrated data fBcAvg (uT), iBc (counts)
-		  fInvertMagCal(&thisMag, &thisMagCal);
-			
-		} // end of test for end of OVERSAMPLE_RATIO block
+	  // remove hard and soft iron terms from fBsAvg (uT) to get calibrated data fBcAvg (uT), iBc (counts)
+	  fInvertMagCal(&thisMag, &thisMagCal);
+	  
+	}  // end of test for end of OVERSAMPLE_RATIO block
 #endif // end of check for magnetic algorithms and sensor
 
   // read the gyro sensor every time slot
@@ -184,7 +186,7 @@ uint8_t sfl_process_measurements() {
   if (iCounter++ == (OVERSAMPLE_RATIO - 1)) {
 	iCounter = 0;
 	return 0;				// no need to run fusion yet
-  } 
+  }
   return 1;					// caller should call the fusion function
 }
 
@@ -200,12 +202,12 @@ uint8_t sfl_fusion(uint32_t systick_value, uint32_t systick_reload)
   thisSV_1DOF_P_BASIC.systick = systick_value & 0x00FFFFFF;
   fRun_1DOF_P_BASIC(&thisSV_1DOF_P_BASIC, &thisPressure);
   thisSV_1DOF_P_BASIC.systick -= systick_value & 0x00FFFFFF;
-  if (thisSV_1DOF_P_BASIC.systick < 0) thisSV_1DOF_P_BASIC.systick += systick_reload;	
+  if (thisSV_1DOF_P_BASIC.systick < 0) thisSV_1DOF_P_BASIC.systick += systick_reload;
 #endif
 
   // 3DOF Accel Basic: call the tilt algorithm
-#if defined COMPUTE_3DOF_G_BASIC		
-  thisSV_3DOF_G_BASIC.systick = systick_value & 0x00FFFFFF;		
+#if defined COMPUTE_3DOF_G_BASIC
+  thisSV_3DOF_G_BASIC.systick = systick_value & 0x00FFFFFF;
   fRun_3DOF_G_BASIC(&thisSV_3DOF_G_BASIC, &thisAccel);
   thisSV_3DOF_G_BASIC.systick -= systick_value & 0x00FFFFFF;
   if (thisSV_3DOF_G_BASIC.systick < 0) thisSV_3DOF_G_BASIC.systick += systick_reload;
@@ -216,11 +218,11 @@ uint8_t sfl_fusion(uint32_t systick_value, uint32_t systick_reload)
   thisSV_3DOF_B_BASIC.systick = systick_value & 0x00FFFFFF;
   fRun_3DOF_B_BASIC(&thisSV_3DOF_B_BASIC, &thisMag);
   thisSV_3DOF_B_BASIC.systick -= systick_value & 0x00FFFFFF;
-  if (thisSV_3DOF_B_BASIC.systick < 0) thisSV_3DOF_B_BASIC.systick += systick_reload;	
+  if (thisSV_3DOF_B_BASIC.systick < 0) thisSV_3DOF_B_BASIC.systick += systick_reload;
 #endif
 
   // 3DOF Gyro Basic: call the gyro integration algorithm
-#if defined COMPUTE_3DOF_Y_BASIC	
+#if defined COMPUTE_3DOF_Y_BASIC
   thisSV_3DOF_Y_BASIC.systick = systick_value & 0x00FFFFFF;
   fRun_3DOF_Y_BASIC(&thisSV_3DOF_Y_BASIC, &thisGyro);
   thisSV_3DOF_Y_BASIC.systick -= systick_value & 0x00FFFFFF;
@@ -228,26 +230,26 @@ uint8_t sfl_fusion(uint32_t systick_value, uint32_t systick_reload)
 #endif
 
   // 6DOF Accel / Mag: Basic: call the eCompass orientation algorithm
-#if defined COMPUTE_6DOF_GB_BASIC		
+#if defined COMPUTE_6DOF_GB_BASIC
   thisSV_6DOF_GB_BASIC.systick = systick_value & 0x00FFFFFF;
   fRun_6DOF_GB_BASIC(&thisSV_6DOF_GB_BASIC, &thisMag, &thisAccel);
   thisSV_6DOF_GB_BASIC.systick -= systick_value & 0x00FFFFFF;
-  if (thisSV_6DOF_GB_BASIC.systick < 0) thisSV_6DOF_GB_BASIC.systick += systick_reload;		
+  if (thisSV_6DOF_GB_BASIC.systick < 0) thisSV_6DOF_GB_BASIC.systick += systick_reload;
 #endif
 
   // 6DOF Accel / Gyro: call the Kalman filter orientation algorithm
-#if defined COMPUTE_6DOF_GY_KALMAN		
+#if defined COMPUTE_6DOF_GY_KALMAN
   thisSV_6DOF_GY_KALMAN.systick = systick_value & 0x00FFFFFF;
   fRun_6DOF_GY_KALMAN(&thisSV_6DOF_GY_KALMAN, &thisAccel, &thisGyro);
   thisSV_6DOF_GY_KALMAN.systick -= systick_value & 0x00FFFFFF;
-  if (thisSV_6DOF_GY_KALMAN.systick < 0) thisSV_6DOF_GY_KALMAN.systick += systick_reload;	
+  if (thisSV_6DOF_GY_KALMAN.systick < 0) thisSV_6DOF_GY_KALMAN.systick += systick_reload;
 #endif
   // 9DOF Accel / Mag / Gyro: call the Kalman filter orientation algorithm
-#if defined COMPUTE_9DOF_GBY_KALMAN		
+#if defined COMPUTE_9DOF_GBY_KALMAN
   thisSV_9DOF_GBY_KALMAN.systick = systick_value & 0x00FFFFFF;
   fRun_9DOF_GBY_KALMAN(&thisSV_9DOF_GBY_KALMAN, &thisAccel, &thisMag, &thisGyro, &thisMagCal);
-  thisSV_9DOF_GBY_KALMAN.systick -= systick_value & 0x00FFFFFF;		
-  if (thisSV_9DOF_GBY_KALMAN.systick < 0) thisSV_9DOF_GBY_KALMAN.systick += systick_reload;	
+  thisSV_9DOF_GBY_KALMAN.systick -= systick_value & 0x00FFFFFF;
+  if (thisSV_9DOF_GBY_KALMAN.systick < 0) thisSV_9DOF_GBY_KALMAN.systick += systick_reload;
 #endif
 
   // decide whether or not to initiate a magnetic calibration
@@ -259,7 +261,7 @@ uint8_t sfl_fusion(uint32_t systick_value, uint32_t systick_reload)
 	  initiatemagcal = (!thisMagCal.iMagCalHasRun && (thisMagBuffer.iMagBufferCount >= MINMEASUREMENTS4CAL));
 
 	  // otherwise initiate a calibration at intervals depending on the number of measurements available
-	  initiatemagcal |= ((thisMagBuffer.iMagBufferCount >= MINMEASUREMENTS4CAL) && 
+	  initiatemagcal |= ((thisMagBuffer.iMagBufferCount >= MINMEASUREMENTS4CAL) &&
 						 (thisMagBuffer.iMagBufferCount < MINMEASUREMENTS7CAL) &&
 						 !(loopcounter % INTERVAL4CAL));
 	  initiatemagcal |= ((thisMagBuffer.iMagBufferCount >= MINMEASUREMENTS7CAL) &&
@@ -280,7 +282,7 @@ uint8_t sfl_fusion(uint32_t systick_value, uint32_t systick_reload)
 }
 
 void sfl_magnetic_calibration()
-{	
+{
   // run the magnetic calibration
 #if defined COMPUTE_3DOF_B_BASIC || defined COMPUTE_6DOF_GB_BASIC || defined COMPUTE_9DOF_GBY_KALMAN
   thisMagCal.iCalInProgress = true;
