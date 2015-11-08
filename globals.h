@@ -23,32 +23,13 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-#ifndef MQX_TASKS_H
-#define MQX_TASKS_H
+#ifndef GLOBALS_H
+#define GLOBALS_H
 
-#include "PE_Types.h"
-#include "PE_Error.h"
-#include "PE_Const.h"
-#include "IO_Map.h"
-#include "Cpu.h"
-#include "MQX1.h"
-#include "SystemTimer1.h"
-#include "LED_RED.h"
-#include "LED_GREEN.h"
-#include "FTM.h"
-#include "UART_A.h"
-#include "I2C.h"
-#include "UART_B.h"
-#include "FTM.h"
-#include "UART_A.h"
-#include "lwevent.h"
-#include "build.h"
+#include <stdint.h>
+#include "config.h"
 
-// globals defined in mqx_tasks.c
-extern struct ProjectGlobals globals;
-extern uint8 sUARTOutputBuffer[];
-extern uint8 sUART_A_InputBuffer[];
-extern uint8 sUART_B_InputBuffer[];
+extern uint32_t loopcounter;
 extern struct PressureSensor thisPressure;   
 extern struct AccelSensor thisAccel;   
 extern struct MagSensor thisMag;       
@@ -63,9 +44,4 @@ extern struct SV_6DOF_GB_BASIC thisSV_6DOF_GB_BASIC;
 extern struct SV_6DOF_GY_KALMAN thisSV_6DOF_GY_KALMAN;
 extern struct SV_9DOF_GBY_KALMAN thisSV_9DOF_GBY_KALMAN;
 
-// function prototypes for functions in mqx_tasks.c
-void RdSensData_task(uint32_t task_init_data);
-void Fusion_task(uint32_t task_init_data);
-void MagCal_task(uint32_t task_init_data);
-
-#endif // MQX_TASKS_H
+#endif // GLOBALS_H
