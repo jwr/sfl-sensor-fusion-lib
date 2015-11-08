@@ -33,6 +33,12 @@
 #define WIN8 2						// identifier for Windows 8 axes and angles
 #define THISCOORDSYSTEM NED			// the coordinate system to be used
 
+// sensors that are actually used
+#define ACCEL_SENSOR
+#define PRESSURE_SENSOR
+#define MAG_SENSOR
+#define GYRO_SENSOR
+
 // normally all enabled: degrees of freedom algorithms to be executed
 #define COMPUTE_1DOF_P_BASIC		// 1DOF pressure (altitude) and temperature: (pressure)
 #define COMPUTE_3DOF_G_BASIC		// 3DOF accel tilt: (accel)
